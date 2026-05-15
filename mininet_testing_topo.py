@@ -1,4 +1,4 @@
-# Simple topology for testing Mininet commands
+'''Simple topology for testing Mininet commands'''
 
 from mininet.topo import Topo
 
