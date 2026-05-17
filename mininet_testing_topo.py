@@ -1,12 +1,10 @@
-'''Simple topology for testing Mininet commands'''
-
 from mininet.topo import Topo
 
 class TestTopo( Topo ):
-    "Simple topology example."
+    '''Simple topology for testing Mininet commands.'''
 
     def build( self ):
-        "Create custom topo."
+        '''Create custom topo.'''
 
         # Add hosts and switches
         h1 = self.addHost('h1')
