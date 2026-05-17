@@ -1,10 +1,10 @@
 from mininet.topo import Topo
 from utils.link_utils import add_backbone_link, add_edge_link
 
-class TestTopo( Topo ):
+class TestTopo(Topo):
     '''Simple topology for testing Mininet commands.'''
 
-    def build( self ):
+    def build(self):
         '''Create custom topo.'''
 
         # Add switches
@@ -33,4 +33,4 @@ class TestTopo( Topo ):
         add_backbone_link(self, s2, s3)
         add_backbone_link(self, s3, s1)
 
-topos = { 'testtopo': ( lambda: TestTopo() ) }
+topos = {'testtopo': (lambda: TestTopo())}
