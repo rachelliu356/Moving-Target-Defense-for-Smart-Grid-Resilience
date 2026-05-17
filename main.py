@@ -1,14 +1,19 @@
 from mininet.net import Mininet
-from mininet.node import OVSController
+from mininet.node import OVSController, OVSSwitch
 from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
 
-from mininet_testing_topo import TestTopo
+from mininet_test_topo import TestTopo
 
 def run(topo):
     setLogLevel('info')
-    net = Mininet(topo=topo, controller=OVSController, link=TCLink)
+    net = Mininet(
+        topo=topo,
+        controller=OVSController,
+        switch=OVSSwitch,
+        link=TCLink
+    )
     net.start()
     CLI(net)
     net.stop()
