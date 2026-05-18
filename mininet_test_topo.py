@@ -11,7 +11,7 @@ class TestTopo(Topo):
 
         s = [0]*3
         for i in range(1, len(s)+1):
-            s[i] = self.addSwitch('s'+str(i))
+            s[i-1] = self.addSwitch('s'+str(i))
         # s1 = self.addSwitch('s1')
         # s2 = self.addSwitch('s2')
         # s3 = self.addSwitch('s3')
