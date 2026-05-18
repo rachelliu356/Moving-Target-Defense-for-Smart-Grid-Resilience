@@ -8,9 +8,13 @@ class TestTopo(Topo):
         '''Create custom topo.'''
 
         # Add switches
-        s1 = self.addSwitch('s1')
-        s2 = self.addSwitch('s2')
-        s3 = self.addSwitch('s3')
+
+        s = [0]*3
+        for i in range(1, len(s)+1):
+            s[i] = self.addSwitch('s'+i)
+        # s1 = self.addSwitch('s1')
+        # s2 = self.addSwitch('s2')
+        # s3 = self.addSwitch('s3')
 
         # Add hosts
         h1 = self.addHost('h1')
