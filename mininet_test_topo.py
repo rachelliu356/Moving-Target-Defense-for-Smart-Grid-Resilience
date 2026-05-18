@@ -8,7 +8,6 @@ class TestTopo(Topo):
         '''Create custom topo.'''
 
         # Add switches
-
         s = [0]*3
         for i in range(len(s)):
             s[i] = self.addSwitch('s'+str(i))
