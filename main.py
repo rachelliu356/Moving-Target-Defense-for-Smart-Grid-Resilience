@@ -18,10 +18,8 @@ def run(topo):
         link=TCLink
     )
     for sw in net.switches:
-        sw.cmd('ovs-vsctl set bridge', sw.name, 'other-config:miss-send-len=65535')
-        sw.cmd('ovs-vsctl del-controller', sw.name)
-        sw.cmd('ovs-vsctl set-controller', sw.name, 'tcp:127.0.0.1:6653')
-        
+        sw.cmd('ovs-ofctl -O OpenFlow14 add-flow', sw.name, 'priority=0,actions=CONTROLLER:65535')
+
     net.start()
     CLI(net)
     net.stop()
