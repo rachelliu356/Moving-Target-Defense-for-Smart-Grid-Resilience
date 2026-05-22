@@ -1,13 +1,13 @@
 from mininet.net import Mininet
-from mininet.node import OVSController, OVSSwitch, RemoteController
+from mininet.node import OVSSwitch, RemoteController
 from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
-
 from functools import partial
-OVSSwitch14 = partial(OVSSwitch, protocols='OpenFlow14')
 
 from mininet_test_topo import TestTopo
+
+OVSSwitch14 = partial(OVSSwitch, protocols='OpenFlow14')
 
 def run(topo):
     setLogLevel('info')
@@ -17,6 +17,8 @@ def run(topo):
         switch=OVSSwitch14,
         link=TCLink
     )
+    for sw in net.switches:
+        sw.cmd('ovs-vsctl set bridge', sw.name, 'protocols=OpenFlow14')
     net.start()
     CLI(net)
     net.stop()
