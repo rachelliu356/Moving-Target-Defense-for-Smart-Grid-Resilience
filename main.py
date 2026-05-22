@@ -8,7 +8,7 @@ from functools import partial
 
 from mininet_test_topo import TestTopo
 
-OVSSwitch14 = partial(OVSSwitch, protocols='OpenFlow14')
+OVSSwitch14 = partial(OVSSwitch, protocols='OpenFlow14', failMode='standalone')
 
 def run(topo):
     setLogLevel('info')
@@ -18,20 +18,11 @@ def run(topo):
         switch=OVSSwitch14,
         link=TCLink
     )
-
     net.start()
     time.sleep(5)
 
     for sw in net.switches:
-        print("*** Switch:", sw.name)
-        # Test basic command works
-        print("hostname:", sw.cmd('hostname'))
-        # Try the flow add
-        result = sw.cmd('ovs-ofctl -O OpenFlow14 add-flow %s priority=0,actions=CONTROLLER:65535' % sw.name)
-        print("add-flow result:", repr(result))
-        # Check flows
-        result2 = sw.cmd('ovs-ofctl -O OpenFlow14 dump-flows %s' % sw.name)
-        print("dump-flows result:", repr(result2))
+        sw.cmd('ovs-ofctl -O OpenFlow14 add-flow %s priority=0,actions=CONTROLLER:65535' % sw.name)
 
     CLI(net)
     net.stop()
