@@ -17,10 +17,10 @@ def run(topo):
         switch=OVSSwitch14,
         link=TCLink
     )
-    for sw in net.switches:
-        sw.cmd('ovs-ofctl -O OpenFlow14 add-flow', sw.name, 'priority=0,actions=CONTROLLER:65535')
 
     net.start()
+    for sw in net.switches:
+        sw.cmd('ovs-ofctl -O OpenFlow14 add-flow', sw.name, 'priority=0,actions=CONTROLLER:65535')
     CLI(net)
     net.stop()
 
