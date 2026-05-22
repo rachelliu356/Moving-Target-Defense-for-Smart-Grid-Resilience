@@ -14,6 +14,8 @@ def run(topo):
         switch=OVSSwitch,
         link=TCLink
     )
+    for sw in net.switches:
+        sw.cmd('ovs-vsctl set bridge', sw, 'protocols=OpenFlow14')
     net.start()
     CLI(net)
     net.stop()
