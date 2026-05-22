@@ -1,3 +1,4 @@
+import time
 from mininet.net import Mininet
 from mininet.node import OVSSwitch, RemoteController
 from mininet.link import TCLink
@@ -19,8 +20,19 @@ def run(topo):
     )
 
     net.start()
+    time.sleep(5)
+
     for sw in net.switches:
-        sw.cmd('ovs-ofctl -O OpenFlow14 add-flow', sw.name, 'priority=0,actions=CONTROLLER:65535')
+        print("*** Switch:", sw.name)
+        # Test basic command works
+        print("hostname:", sw.cmd('hostname'))
+        # Try the flow add
+        result = sw.cmd('ovs-ofctl -O OpenFlow14 add-flow %s priority=0,actions=CONTROLLER:65535' % sw.name)
+        print("add-flow result:", repr(result))
+        # Check flows
+        result2 = sw.cmd('ovs-ofctl -O OpenFlow14 dump-flows %s' % sw.name)
+        print("dump-flows result:", repr(result2))
+
     CLI(net)
     net.stop()
 
