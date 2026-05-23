@@ -22,5 +22,5 @@ def run(topo):
     net.stop()
 
 if __name__ == '__main__':
-    topo = TreeTopo()
+    topo = TestTopo()
     run(topo)
