@@ -6,6 +6,7 @@ from mininet.log import setLogLevel
 from functools import partial
 
 from mininet_test_topo import TestTopo
+from ieee_24_bus_rts_topo import IEEETopo
 
 OVSSwitch14 = partial(OVSSwitch, protocols='OpenFlow14')
 
@@ -22,5 +23,6 @@ def run(topo):
     net.stop()
 
 if __name__ == '__main__':
-    topo = TestTopo()
+    # topo = TestTopo()
+    topo = IEEETopo
     run(topo)
