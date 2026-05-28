@@ -24,5 +24,5 @@ def run(topo):
 
 if __name__ == '__main__':
     # topo = TestTopo()
-    topo = IEEETopo
+    topo = IEEETopo()
     run(topo)
