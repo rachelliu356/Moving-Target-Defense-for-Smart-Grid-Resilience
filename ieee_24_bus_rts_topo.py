@@ -45,7 +45,7 @@ class IEEETopo(Topo):
         # Control Center / PDC – Bus 13 (slack bus, 230 kV, 3×197 MW = 591 MW)
         cc = self.addHost(
             "cc13",
-            ip=f"10.0.{self.CC_BUS}.1/24",
+            ip=f"10.0.{self.CC_BUS}.1/8",
         )
         add_edge_link(self, cc, switches[self.CC_BUS])
 
@@ -54,7 +54,7 @@ class IEEETopo(Topo):
         for bus in self.PMU_BUSES:
             h = self.addHost(
                 f"pmu{bus}",
-                ip=f"10.0.{bus}.10/24",
+                ip=f"10.0.{bus}.10/8",
             )
             pmu_hosts[bus] = h
             add_edge_link(self, h, switches[bus])
@@ -64,7 +64,7 @@ class IEEETopo(Topo):
         for bus in self.IED_BUSES:
             h = self.addHost(
                 f"ied{bus}",
-                ip=f"10.0.{bus}.20/24",
+                ip=f"10.0.{bus}.20/8",
             )
             ied_hosts[bus] = h
             add_edge_link(self, h, switches[bus])
@@ -73,7 +73,7 @@ class IEEETopo(Topo):
         for bus in range(1, 25):
             h = self.addHost(
                 f"rtu{bus}",
-                ip=f"10.0.{bus}.30/24",
+                ip=f"10.0.{bus}.30/8",
             )
             add_edge_link(self, h, switches[bus])
 
