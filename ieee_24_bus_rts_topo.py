@@ -122,10 +122,10 @@ class IEEETopo(Topo):
         ]
 
         for (bus1, bus2) in pmu_links:
-            add_backbone_link(self, bus1, bus2)
+            add_backbone_link(self, switches[bus1], switches[bus2])
         for (bus1, bus2) in scada_links:
             if (bus1, bus2) not in pmu_links:
-                add_backbone_link(self, bus1, bus2)
+                add_backbone_link(self, switches[bus1], switches[bus2])
 
 
 topos = {'ieeetopo': (lambda: IEEETopo())}
