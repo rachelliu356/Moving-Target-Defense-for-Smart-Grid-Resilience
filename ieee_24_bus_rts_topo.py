@@ -20,8 +20,8 @@ class IEEETopo(Topo):
             24 units → every bus (one RTU per bus, standard utility practice)
  
     Link parameters
-    - Core Backbone   : delay 10–20 ms, bw 1 Gbps   (add_backbone_link)
-    - Edge/Substation : delay 1–5 ms,  bw 100 Mbps  (add_edge_link)
+    - Core Backbone   : delay 10–20 ms (ignore), bw 1 Gbps   (add_backbone_link)
+    - Edge/Substation : delay 1–5 ms (ignore),  bw 100 Mbps  (add_edge_link)
  
     Follows the standard IEEE 24-bus RTS generator and branch data 
     (IEEE Reliability Test System Task Force, “IEEE reliability test system,” IEEE Trans. 
