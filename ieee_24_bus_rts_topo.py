@@ -78,6 +78,18 @@ class IEEETopo(Topo):
             add_edge_link(self, h, switches[bus])
 
         ## Core Backbone Links
+
+        # Tier 1 - GOOSE (IED)
+        goose_links = [
+            (3, 9), (3, 24),
+            (8, 9), (8, 10),
+            (9, 11), (9, 12), 
+            (10, 11), (10, 12),
+            (11, 12), 
+            (12, 13), (12, 23),
+            (13, 23), 
+            (15, 24)
+        ]
         
         # Tier 2 - PMU
         pmu_links = [
@@ -120,11 +132,14 @@ class IEEETopo(Topo):
             (21, 22),
             (22, 23),
         ]
-
+        for (bus1, bus2) in goose_links:
+            add_backbone_link(self, switches[bus1], switches[bus2])
         for (bus1, bus2) in pmu_links:
+            if (bus1, bus2) not in goose_links:
+                add_backbone_link(self, switches[bus1], switches[bus2])
             add_backbone_link(self, switches[bus1], switches[bus2])
         for (bus1, bus2) in scada_links:
-            if (bus1, bus2) not in pmu_links:
+            if (bus1, bus2) not in goose_links and (bus1, bus2) not in pmu_links:
                 add_backbone_link(self, switches[bus1], switches[bus2])
 
 
