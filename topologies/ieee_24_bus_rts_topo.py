@@ -59,7 +59,7 @@ class IEEETopo(Topo):
             pmu_hosts[bus] = h
             add_edge_link(self, h, switches[bus])
 
-        # IED hosts – DNP3 + GOOSE protection; sub-4 ms trip-signal budget
+        # IED hosts – DNP3 + GOOSE protection; sub-4 ms trip-signal
         ied_hosts = {}
         for bus in self.IED_BUSES:
             h = self.addHost(
@@ -79,7 +79,7 @@ class IEEETopo(Topo):
 
         ## Core Backbone Links
 
-        # Tier 1 - GOOSE (IED)
+        # Tier 1 - GOOSE (IED) - 100% < 4ms
         goose_links = [
             (3, 9), (3, 24),
             (8, 9), (8, 10),
@@ -91,7 +91,7 @@ class IEEETopo(Topo):
             (15, 24)
         ]
         
-        # Tier 2 - PMU
+        # Tier 2 - PMU - 99.9% < 200ms
         pmu_links = [
             (1, 2), (1, 3), 
             (3, 9),
@@ -110,7 +110,7 @@ class IEEETopo(Topo):
             (22, 23)
         ]
 
-        # Tier 3 - SCADA (RTU)
+        # Tier 3 - SCADA (RTU) - 99% < 2s
         scada_links = [
             (1, 2), (1, 3), (1, 4),
             (3, 9),
@@ -132,6 +132,7 @@ class IEEETopo(Topo):
             (21, 22),
             (22, 23),
         ]
+        
         for (bus1, bus2) in goose_links:
             add_backbone_link(self, switches[bus1], switches[bus2])
         for (bus1, bus2) in pmu_links:
