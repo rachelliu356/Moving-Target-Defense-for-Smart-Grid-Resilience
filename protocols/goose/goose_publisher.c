@@ -1,5 +1,5 @@
 /*
- * goose_publisher_example.c
+ * goose_publisher_example.c with changes to run indefinitely instead of 4 times
  */
 
 #include <stdint.h>
@@ -7,10 +7,18 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <signal.h>
 
 #include "mms_value.h"
 #include "goose_publisher.h"
 #include "hal_thread.h"
+
+static int running = 1;
+
+void sigint_handler(int signalId)
+{
+    running = 0;
+}
 
 /* has to be executed as root! */
 int
@@ -24,6 +32,8 @@ main(int argc, char **argv)
         interface = "eth0";
 
     printf("Using interface %s\n", interface);
+
+    signal(SIGINT, sigint_handler);
 
     LinkedList dataSetValues = LinkedList_create();
 
@@ -57,22 +67,20 @@ main(int argc, char **argv)
         GoosePublisher_setDataSetRef(publisher, "simpleIOGenericIO/LLN0$AnalogValues");
         GoosePublisher_setTimeAllowedToLive(publisher, 500);
 
-        int i = 0;
+        int frameCount = 0;
 
-        for (i = 0; i < 4; i++) {
+        while (running) {
             Thread_sleep(1000);
 
-            if (i == 3) {
-                /* now change dataset to send an invalid GOOSE message */
-                LinkedList_add(dataSetValues, MmsValue_newBoolean(true));
-                GoosePublisher_publish(publisher, dataSetValues);
+            if (GoosePublisher_publish(publisher, dataSetValues) == -1) {
+                printf("Error sending message!\n");
             }
             else {
-                if (GoosePublisher_publish(publisher, dataSetValues) == -1) {
-                    printf("Error sending message!\n");
-                }
+                frameCount++;
+                printf("Published frame %d\n", frameCount);
             }
         }
+
 
         GoosePublisher_destroy(publisher);
     }
