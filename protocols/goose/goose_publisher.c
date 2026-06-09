@@ -1,5 +1,5 @@
 /*
- * goose_publisher_example.c with changes to run indefinitely instead of 4 times
+ * goose_publisher_example.c with changes to run indefinitely every 3 seconds instead of 4 times
  */
 
 #include <stdint.h>
@@ -70,7 +70,7 @@ main(int argc, char **argv)
         int frameCount = 0;
 
         while (running) {
-            Thread_sleep(1000);
+            Thread_sleep(3000);
 
             if (GoosePublisher_publish(publisher, dataSetValues) == -1) {
                 printf("Error sending message!\n");
