@@ -47,7 +47,7 @@ class IEEETopo(Topo):
             "cc13",
             ip=f"10.0.{self.CC_BUS}.1/8",
         )
-        add_edge_link(self, cc, switches[self.CC_BUS])
+        add_edge_link(self, cc, switches[self.CC_BUS], "cc")
 
         # PMU hosts – IEEE C37.118 UDP synchrophasor streams to PDC at Bus 13
         pmu_hosts = {}
@@ -57,7 +57,7 @@ class IEEETopo(Topo):
                 ip=f"10.0.{bus}.10/8",
             )
             pmu_hosts[bus] = h
-            add_edge_link(self, h, switches[bus])
+            add_edge_link(self, h, switches[bus], "pmu")
 
         # IED hosts – DNP3 + GOOSE protection; sub-4 ms trip-signal
         ied_hosts = {}
@@ -67,7 +67,7 @@ class IEEETopo(Topo):
                 ip=f"10.0.{bus}.20/8",
             )
             ied_hosts[bus] = h
-            add_edge_link(self, h, switches[bus])
+            add_edge_link(self, h, switches[bus], "ied")
 
         # RTU hosts – one per bus, polled by CC via DNP3/TCP
         for bus in range(1, 25):
@@ -75,7 +75,7 @@ class IEEETopo(Topo):
                 f"rtu{bus}",
                 ip=f"10.0.{bus}.30/8",
             )
-            add_edge_link(self, h, switches[bus])
+            add_edge_link(self, h, switches[bus], "rtu")
 
         ## Core Backbone Links
 
@@ -134,14 +134,13 @@ class IEEETopo(Topo):
         ]
         
         for (bus1, bus2) in goose_links:
-            add_backbone_link(self, switches[bus1], switches[bus2])
+            add_backbone_link(self, switches[bus1], switches[bus2], bus1, bus2)
         for (bus1, bus2) in pmu_links:
             if (bus1, bus2) not in goose_links:
-                add_backbone_link(self, switches[bus1], switches[bus2])
-            add_backbone_link(self, switches[bus1], switches[bus2])
+                add_backbone_link(self, switches[bus1], switches[bus2], bus1, bus2)
         for (bus1, bus2) in scada_links:
             if (bus1, bus2) not in goose_links and (bus1, bus2) not in pmu_links:
-                add_backbone_link(self, switches[bus1], switches[bus2])
+                add_backbone_link(self, switches[bus1], switches[bus2], bus1, bus2)
 
 
 topos = {'ieeetopo': (lambda: IEEETopo())}
